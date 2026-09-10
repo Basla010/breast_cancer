@@ -30,3 +30,34 @@ fig, ax = plt.subplots()
 ax.hist(df[feature], bins=20)
 ax.set_xlabel(feature)
 st.pyplot(fig)
+st.header("Prediction")
+st.write(f"Model: Random Forest — Test Accuracy: **{accuracy:.2%}**")
+st.write("Adjust the feature values below to predict whether the tumor is malignant or benign.")
+
+st.sidebar.header("Input Features")
+input_data = {}
+for col in data.feature_names:
+    col_min = float(df[col].min())
+    col_max = float(df[col].max())
+    col_mean = float(df[col].mean())
+    input_data[col] = st.sidebar.slider(
+        col, min_value=col_min, max_value=col_max, value=col_mean
+    )
+
+input_df = pd.DataFrame([input_data])
+
+if st.button("Predict"):
+    prediction = model.predict(input_df)[0]
+    probabilities = model.predict_proba(input_df)[0]
+    label = data.target_names[prediction]
+
+    if label == "malignant":
+        st.error(f"Prediction: **{label.upper()}**")
+    else:
+        st.success(f"Prediction: **{label.upper()}**")
+
+    st.write("Prediction Probabilities:")
+    prob_df = pd.DataFrame(
+        {"Class": data.target_names, "Probability": probabilities}
+    )
+    st.dataframe(prob_df)
