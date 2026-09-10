@@ -12,6 +12,23 @@ data = load_breast_cancer()
 df = pd.DataFrame(data.data, columns=data.feature_names)
 df["target"] = data.target
 st.title("Breast Cancer Prediction")
+
+
+@st.cache_resource
+def train_model():
+    x = df[data.feature_names]
+    y = df["target"]
+    x_train, x_test, y_train, y_test = train_test_split(
+        x, y, test_size=0.2, random_state=42
+    )
+    model = RandomForestClassifier(n_estimators=200, random_state=42)
+    model.fit(x_train, y_train)
+    acc = accuracy_score(y_test, model.predict(x_test))
+    return model, acc
+
+
+model, accuracy = train_model()
+
 st.header("Data Exploration")
 
 st.write("Dataset Shape:")
