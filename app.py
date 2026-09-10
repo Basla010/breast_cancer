@@ -4,6 +4,9 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import streamlit as st
 from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
 
 data = load_breast_cancer()
 df = pd.DataFrame(data.data, columns=data.feature_names)
