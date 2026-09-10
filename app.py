@@ -67,15 +67,16 @@ input_df = pd.DataFrame([input_data])
 if st.button("Predict"):
     prediction = model.predict(input_df)[0]
     probabilities = model.predict_proba(input_df)[0]
-    label = data.target_names[prediction]
+    label_map = {0: "Needs Treatment", 1: "Healthy"}
+    label = label_map[prediction]
 
-    if label == "need treatmeant":
-        st.error(f"Prediction: **{label.upper()}**")
+    if label == "Needs Treatment":
+        st.error(f"Prediction: **{label}**")
     else:
-        st.success(f"Prediction: **{label.upper()}**")
+        st.success(f"Prediction: **{label}**")
 
     st.write("Prediction Probabilities:")
     prob_df = pd.DataFrame(
-        {"Class": data.target_names, "Probability": probabilities}
+        {"Class": [label_map[0], label_map[1]], "Probability": probabilities}
     )
     st.dataframe(prob_df)
