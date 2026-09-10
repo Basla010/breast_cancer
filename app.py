@@ -13,8 +13,6 @@ df = pd.DataFrame(data.data, columns=data.feature_names)
 df["target"] = data.target
 st.title("Breast Cancer Prediction")
 
-
-@st.cache_resource
 def train_model():
     x = df[data.feature_names]
     y = df["target"]
