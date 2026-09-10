@@ -69,7 +69,7 @@ if st.button("Predict"):
     probabilities = model.predict_proba(input_df)[0]
     label = data.target_names[prediction]
 
-    if label == "malignant":
+    if label == "need treatmeant":
         st.error(f"Prediction: **{label.upper()}**")
     else:
         st.success(f"Prediction: **{label.upper()}**")
